@@ -229,5 +229,4 @@ Fora de escopo permanente: review de diff linha a linha e GitHub Enterprise Serv
 
 ## Licença
 
-Ainda sem arquivo de licença. Adicione um `LICENSE` (MIT é comum para extensões
-do `gh`) antes de publicar o repositório.
+Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para o texto completo.
