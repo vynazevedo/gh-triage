@@ -42,7 +42,7 @@ func titleWidth(w, reserved int) int {
 }
 
 func (m Model) radarTable(w, h int) string {
-	titleW := titleWidth(w, 62)
+	titleW := titleWidth(w, 64)
 	if len(m.radar.visible) == 0 {
 		return m.radarHeader(w, titleW) + "\n" + m.emptyTable(w, h-1)
 	}
@@ -86,9 +86,9 @@ func (m Model) renderRadarRow(it itemRow, w, titleW int, sel, marked bool) strin
 
 func (m Model) itemsTable(w, h int) string {
 	l := m.currentItemList()
-	reserved := 48
+	reserved := 50
 	if m.tab == TabPRs {
-		reserved = 56
+		reserved = 58
 	}
 	titleW := titleWidth(w, reserved)
 
@@ -159,7 +159,7 @@ func header(cols []string, w int) string {
 
 func (m Model) labelsCell(it gh.Item, width int) string {
 	if len(it.Labels) == 0 {
-		return ui.StyleMuted.Render(ui.Pad("·", width))
+		return ui.Pad("", width)
 	}
 	var parts []string
 	used := 0
@@ -182,7 +182,7 @@ func (m Model) labelsCell(it gh.Item, width int) string {
 
 func (m Model) assigneeCell(it gh.Item, width int) string {
 	if len(it.Assignees) == 0 {
-		return ui.StyleMuted.Render(ui.Pad("·", width))
+		return ui.Pad("", width)
 	}
 	txt := it.Assignees[0]
 	if len(it.Assignees) > 1 {
@@ -192,7 +192,7 @@ func (m Model) assigneeCell(it gh.Item, width int) string {
 }
 
 func (m Model) commitsTable(w, h int) string {
-	titleW := titleWidth(w, 54)
+	titleW := titleWidth(w, 56)
 	if len(m.commits.visible) == 0 {
 		return m.commitsHeader(w, titleW) + "\n" + m.emptyTable(w, h-1)
 	}

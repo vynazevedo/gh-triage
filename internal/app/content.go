@@ -285,7 +285,11 @@ func relativeAge(iso string) string {
 		return itoa(min/60) + "h"
 	case min < 10080:
 		return itoa(min/1440) + "d"
-	default:
+	case min < 86400:
 		return itoa(min/10080) + "sem"
+	case min < 525600:
+		return itoa(min/43200) + "mes"
+	default:
+		return itoa(min/525600) + "a"
 	}
 }
