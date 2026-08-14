@@ -5,11 +5,12 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/vynazevedo/gh-triage/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/vynazevedo/gh-triage/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/vynazevedo/gh-triage/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/vynazevedo/gh-triage?sort=semver&style=flat-square&color=4C86F0"></a>
+  <a href="LICENSE"><img alt="Licença MIT" src="https://img.shields.io/badge/licen%C3%A7a-MIT-3BE8B0?style=flat-square"></a>
   <img alt="Go 1.25" src="https://img.shields.io/badge/Go-1.25-00ADD8?style=flat-square&logo=go&logoColor=white">
   <a href="#instalação"><img alt="gh extension" src="https://img.shields.io/badge/gh-extension-2088FF?style=flat-square&logo=github&logoColor=white"></a>
   <img alt="TUI Bubble Tea" src="https://img.shields.io/badge/TUI-Bubble_Tea-FF75B7?style=flat-square">
-  <img alt="Config zero" src="https://img.shields.io/badge/config-zero-3BE8B0?style=flat-square">
-  <img alt="Plataforma Linux e macOS" src="https://img.shields.io/badge/plataforma-Linux_%7C_macOS-4C86F0?style=flat-square">
 </p>
 
 ---
