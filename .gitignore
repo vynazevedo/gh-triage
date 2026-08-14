@@ -1,0 +1,4 @@
+/gh-triage
+/mdtest_main.go
+reference/rust/target/
+*.snap.new
