@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"os"
 	"time"
@@ -221,6 +222,8 @@ func pipeRadar(client *gh.Client, format string) error {
 	}
 	if err == nil {
 		_ = cache.SaveRadar(items, rate)
+	} else {
+		fmt.Fprintln(os.Stderr, "aviso: radar parcial ("+err.Error()+")")
 	}
 	return output.WriteRadar(os.Stdout, items, format)
 }
@@ -265,9 +268,12 @@ func emitCount(format string, items []gh.RadarItem, ageSeconds int, stale bool) 
 }
 
 func pipeMode(client *gh.Client, filters gh.Filters, format string) error {
-	page, err := client.Search(gh.BuildQuery(filters), "")
-	if err != nil {
+	page, err := client.SearchAll(gh.BuildQuery(filters), gh.MaxSearchItems)
+	if err != nil && len(page.Items) == 0 {
 		return err
+	}
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "aviso: resultado parcial ("+err.Error()+")")
 	}
 	return output.Write(os.Stdout, page.Items, format)
 }
