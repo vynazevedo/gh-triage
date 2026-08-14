@@ -41,7 +41,7 @@ func (c *Client) FetchStandup(sinceDays int) (Standup, error) {
 		wg.Add(1)
 		go func(i int, q string) {
 			defer wg.Done()
-			pag, err := c.Search(q, "")
+			pag, err := c.SearchAll(q, MaxSearchItems)
 			res[i] = pag.Items
 			erros[i] = err
 		}(i, q)
