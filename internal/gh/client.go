@@ -57,6 +57,34 @@ func (c *Client) Search(search, cursor string) (Page, error) {
 	return pageFromResponse(resp), nil
 }
 
+const MaxSearchItems = 300
+
+func (c *Client) SearchAll(search string, maxItems int) (Page, error) {
+	if maxItems <= 0 {
+		maxItems = MaxSearchItems
+	}
+	var acc Page
+	cursor := ""
+	for {
+		pag, err := c.Search(search, cursor)
+		if err != nil {
+			if len(acc.Items) == 0 {
+				return Page{}, err
+			}
+			acc.NextCursor = cursor
+			return acc, err
+		}
+		acc.Items = append(acc.Items, pag.Items...)
+		acc.Total = pag.Total
+		acc.RateLimitRemaining = pag.RateLimitRemaining
+		acc.NextCursor = pag.NextCursor
+		if pag.NextCursor == "" || len(acc.Items) >= maxItems {
+			return acc, nil
+		}
+		cursor = pag.NextCursor
+	}
+}
+
 func pageFromResponse(resp searchResponse) Page {
 	items := make([]Item, 0, len(resp.Search.Nodes))
 	for _, no := range resp.Search.Nodes {

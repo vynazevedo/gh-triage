@@ -97,7 +97,7 @@ func (c *Client) FetchRadar() ([]RadarItem, int, error) {
 		wg.Add(1)
 		go func(i int, origem RadarSource, q string) {
 			defer wg.Done()
-			pag, err := c.Search(q, "")
+			pag, err := c.SearchAll(q, MaxSearchItems)
 			results[i] = SourceResult{Source: origem, Items: pag.Items}
 			erros[i] = err
 			rates[i] = pag.RateLimitRemaining

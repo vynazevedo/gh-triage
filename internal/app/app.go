@@ -326,12 +326,20 @@ func itoa(n int) string {
 	if n == 0 {
 		return "0"
 	}
+	neg := n < 0
+	if neg {
+		n = -n
+	}
 	var b [20]byte
 	pos := len(b)
 	for n > 0 {
 		pos--
 		b[pos] = byte('0' + n%10)
 		n /= 10
+	}
+	if neg {
+		pos--
+		b[pos] = '-'
 	}
 	return string(b[pos:])
 }

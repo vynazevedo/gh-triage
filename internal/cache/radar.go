@@ -58,9 +58,23 @@ func SaveRadar(items []gh.RadarItem, rate int) error {
 	if err != nil {
 		return err
 	}
-	tmp := caminho + ".tmp"
-	if err := os.WriteFile(tmp, dados, 0o644); err != nil {
+	f, err := os.CreateTemp(filepath.Dir(caminho), "radar-*.json")
+	if err != nil {
 		return err
 	}
-	return os.Rename(tmp, caminho)
+	tmp := f.Name()
+	if _, err := f.Write(dados); err != nil {
+		f.Close()
+		os.Remove(tmp)
+		return err
+	}
+	if err := f.Close(); err != nil {
+		os.Remove(tmp)
+		return err
+	}
+	if err := os.Rename(tmp, caminho); err != nil {
+		os.Remove(tmp)
+		return err
+	}
+	return nil
 }
