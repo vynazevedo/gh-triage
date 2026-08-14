@@ -22,8 +22,10 @@ func (s RadarSnapshot) Age() time.Duration {
 	return time.Since(s.SavedAt)
 }
 
+var userCacheDir = os.UserCacheDir
+
 func radarPath() (string, error) {
-	dir, err := os.UserCacheDir()
+	dir, err := userCacheDir()
 	if err != nil {
 		return "", err
 	}
