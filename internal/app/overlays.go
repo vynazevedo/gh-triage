@@ -115,9 +115,10 @@ func (m Model) viewHelp() string {
 		{"GERAL", ""},
 		{".", "picker de org/repo (lista das suas orgs)"},
 		{">", "trocar por digitação (owner ou owner/repo)"},
+		{"m", "mapa de urgência por repo (Radar)"},
 		{"o", "abre no browser"},
 		{"r", "recarrega"},
-		{"q / Esc", "volta ou sai"},
+		{"q / Esc", "volta; sair pede confirmação"},
 	}
 
 	var linhas []string

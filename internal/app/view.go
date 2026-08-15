@@ -40,20 +40,42 @@ func (m Model) View() string {
 	if m.mode == modeFilter {
 		return m.overlay(base, m.viewFilter())
 	}
+	if m.mode == modeQuitConfirm {
+		return m.overlay(base, m.viewQuitConfirm())
+	}
 	return base
+}
+
+func (m Model) viewQuitConfirm() string {
+	corpo := []string{
+		ui.StyleText.Bold(true).Render("Sair do gh-triage?"),
+		"",
+		ui.StyleKey.Render("Esc") + ui.StyleMuted.Render(" ou ") + ui.StyleKey.Render("q") +
+			ui.StyleMuted.Render(" confirma  ") +
+			ui.StyleKey.Render("qualquer tecla") + ui.StyleMuted.Render(" cancela"),
+	}
+	larg := 42
+	if larg > m.width-4 {
+		larg = m.width - 4
+	}
+	return ui.StyleBorderActive.Width(larg).Padding(0, 1).Render(strings.Join(corpo, "\n"))
 }
 
 func (m Model) viewBody() string {
 	bodyH := m.bodyHeight()
+	title := m.tab.title()
+	if m.tab == TabRadar && m.showMap {
+		title = "Radar · mapa"
+	}
 	if m.twoPane() {
 		listW := m.listWidth()
 		sideW := m.sideWidth()
-		list := m.panel(m.tab.title(), m.tabCount(m.tab), m.tabKeys(), listW, bodyH, true,
+		list := m.panel(title, m.tabCount(m.tab), m.tabKeys(), listW, bodyH, true,
 			m.viewTable(listW-2, bodyH-2))
 		side := m.panel("Preview", -1, nil, sideW, bodyH, false, m.preview.View())
 		return lipgloss.JoinHorizontal(lipgloss.Top, list, side)
 	}
-	return m.panel(m.tab.title(), m.tabCount(m.tab), m.tabKeys(), m.width, bodyH, true,
+	return m.panel(title, m.tabCount(m.tab), m.tabKeys(), m.width, bodyH, true,
 		m.viewTable(m.width-2, bodyH-2))
 }
 
@@ -230,7 +252,10 @@ func (m Model) tabCount(a Tab) int {
 func (m Model) tabKeys() [][2]string {
 	switch m.tab {
 	case TabRadar:
-		return [][2]string{{"enter", "detalhe"}, {"o", "abrir"}, {"n", "comentar"}, {"x", "fechar"}, {"/", "busca"}}
+		if m.showMap {
+			return [][2]string{{"m", "lista"}, {"r", "refresh"}, {"?", "ajuda"}}
+		}
+		return [][2]string{{"enter", "detalhe"}, {"m", "mapa"}, {"o", "abrir"}, {"x", "fechar"}, {"/", "busca"}}
 	case TabCommits:
 		return [][2]string{{"o", "abrir"}, {"/", "busca"}, {"r", "refresh"}}
 	case TabPRs:

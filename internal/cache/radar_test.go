@@ -7,8 +7,16 @@ import (
 	"github.com/vynazevedo/gh-triage/internal/gh"
 )
 
+func useTempCache(t *testing.T) {
+	t.Helper()
+	dir := t.TempDir()
+	orig := userCacheDir
+	userCacheDir = func() (string, error) { return dir, nil }
+	t.Cleanup(func() { userCacheDir = orig })
+}
+
 func TestRadarRoundTrip(t *testing.T) {
-	t.Setenv("XDG_CACHE_HOME", t.TempDir())
+	useTempCache(t)
 	items := []gh.RadarItem{
 		{Item: gh.Item{Number: 7, Repo: "a/b", Title: "x", CI: gh.CIFail}, Reason: "ci falhou", Class: 2},
 		{Item: gh.Item{Number: 9, Repo: "a/b", Title: "y"}, Reason: "atribuída a você", Class: 4},
@@ -35,7 +43,7 @@ func TestRadarRoundTrip(t *testing.T) {
 }
 
 func TestLoadMissing(t *testing.T) {
-	t.Setenv("XDG_CACHE_HOME", t.TempDir())
+	useTempCache(t)
 	if _, ok := LoadRadar(); ok {
 		t.Fatal("não deveria haver cache num diretório vazio")
 	}

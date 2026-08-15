@@ -23,12 +23,9 @@ ordenado por urgência. Sem configurar nada.
 O Radar responde a pergunta que a página de notificações do GitHub não
 responde: "o que eu preciso fazer agora?"
 
-```
-review pedido a você     pr    #384   acme/api          Anexo de documentos
-review pedido a você     pr    #480   acme/service-web  Remoção de logs
-atribuída a você         issue #109   acme/service-crm  Estrutura de tabelas
-você foi mencionado      issue #436   acme/api          Refatoração da estrutura
-```
+<p align="center">
+  <img src=".github/assets/tela1.jpg" width="900" alt="Aba Radar: itens de todos os repositórios ordenados por urgência, com motivo e idade coloridos por gravidade">
+</p>
 
 E quando você mergulha num repositório, vira uma mesa de triagem completa:
 issues, PRs e commits cruzados entre si, view profunda com comentários e
@@ -158,10 +155,14 @@ standup, blocking) traz o registro completo do item: `author`, `draft`, `ci`,
 
 Quatro abas, trocadas com `Tab` / `Shift+Tab` ou `1` `2` `3` `4`:
 
-- Radar: tudo que espera por você, entre todos os repos, por urgência.
+- Radar: tudo que espera por você, entre todos os repos, por urgência. `m` abre o mapa de calor por repositório (repo por classe de urgência).
 - Triagem: issues e PRs de um repo ou org na mesma lista.
 - PRs: só pull requests, com coluna de review.
 - Commits: histórico do branch padrão, com os PRs e issues que cada commit referencia.
+
+<p align="center">
+  <img src=".github/assets/tela.jpg" width="900" alt="Aba Commits: cada commit com os pull requests e issues que referencia, diff e data">
+</p>
 
 A ordem do Radar: review pedido a você, mudanças pedidas nos seus PRs,
 CI falhou, pronto para merge, issues atribuídas, menções, aguardando review.
@@ -187,8 +188,9 @@ review ainda, aprovado e pronto).
 | `x` `X` | Fechar / reabrir |
 | `n` `c` `e` | Comentar / criar / editar (via `$EDITOR`) |
 | `v` `M` `C` | Review / merge / checkout de PR |
+| `m` | Mapa de urgência por repositório (no Radar) |
 | `o` `r` `?` | Browser / recarregar / ajuda |
-| `q` `Esc` | Voltar ou sair |
+| `q` `Esc` | Voltar; sair pede confirmação (Esc duas vezes) |
 
 ## Desenvolvimento
 
