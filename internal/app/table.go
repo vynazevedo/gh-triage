@@ -13,6 +13,9 @@ func (m Model) viewTable(w, h int) string {
 	case TabCommits:
 		return m.commitsTable(w, h)
 	case TabRadar:
+		if m.showMap {
+			return m.radarHeatmap(w, h)
+		}
 		return m.radarTable(w, h)
 	default:
 		return m.itemsTable(w, h)
@@ -78,7 +81,7 @@ func (m Model) renderRadarRow(it itemRow, w, titleW int, sel, marked bool) strin
 	repo := ui.StyleMuted.Render(ui.Pad(ui.Truncate(it.Repo, 20), 20))
 	reasonIcon, reasonColor := ui.ReasonIcon(it.Class)
 	reason := lipgloss.NewStyle().Foreground(reasonColor).Render(ui.Pad(ui.Truncate(reasonIcon+" "+it.Reason, 22), 22))
-	when := agedWhen(it.UpdatedAt)
+	when := agedWhenRight(it.UpdatedAt, 6)
 
 	cols := []string{mark + num, ic, title, repo, reason, when}
 	return m.renderRow(cols, w, sel)
@@ -139,7 +142,7 @@ func (m Model) renderItemRow(it gh.Item, w, titleW int, sel, marked bool) string
 	}
 	ciIcon, ciColor := ui.CIIcon(it.CI)
 	cols = append(cols, lipgloss.NewStyle().Foreground(ciColor).Render(ciIcon))
-	cols = append(cols, agedWhen(it.UpdatedAt))
+	cols = append(cols, agedWhenRight(it.UpdatedAt, 6))
 
 	return m.renderRow(cols, w, sel)
 }
@@ -232,7 +235,7 @@ func (m Model) renderCommitRow(c gh.Commit, w, titleW int, sel, marked bool) str
 	ciIcon, ciColor := ui.CIIcon(c.CI)
 	ci := lipgloss.NewStyle().Foreground(ciColor).Render(ciIcon)
 
-	cols := []string{mark + sha, title, author, links, ui.Pad(diff, 12), ci, ui.StyleMuted.Render(relativeAge(c.Date))}
+	cols := []string{mark + sha, title, author, links, ui.Pad(diff, 12), ci, ui.StyleMuted.Render(padLeft(relativeAge(c.Date), 6))}
 	return m.renderRow(cols, w, sel)
 }
 

@@ -255,9 +255,16 @@ func stalenessColor(iso string) (lipgloss.AdaptiveColor, bool) {
 	}
 }
 
-func agedWhen(iso string) string {
+func padLeft(s string, w int) string {
+	if pad := w - len([]rune(s)); pad > 0 {
+		return strings.Repeat(" ", pad) + s
+	}
+	return s
+}
+
+func agedWhenRight(iso string, w int) string {
 	cor, _ := stalenessColor(iso)
-	return lipgloss.NewStyle().Foreground(cor).Render(relativeAge(iso))
+	return lipgloss.NewStyle().Foreground(cor).Render(padLeft(relativeAge(iso), w))
 }
 
 func urgencyLine(it gh.Item) string {

@@ -57,6 +57,7 @@ const (
 	modeSavedSearches
 	modeFilter
 	modePicker
+	modeQuitConfirm
 )
 
 type toast struct {
@@ -102,6 +103,7 @@ type Model struct {
 
 	watch        bool
 	watchSeconds int
+	showMap      bool
 
 	quit bool
 }

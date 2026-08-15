@@ -29,6 +29,8 @@ func (m Model) onKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m.filterKey(msg)
 	case modePicker:
 		return m.pickerKey(msg)
+	case modeQuitConfirm:
+		return m.quitConfirmKey(msg)
 	}
 
 	switch msg.String() {
@@ -90,6 +92,11 @@ func (m Model) tableKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.mode = modeFilter
 		m.filterCursor = 0
 		return m, nil
+	case "m":
+		if m.tab == TabRadar {
+			m.showMap = !m.showMap
+		}
+		return m, nil
 	case ".":
 		return m.openPicker()
 	case ">":
@@ -116,10 +123,21 @@ func (m Model) tableKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.loading = true
 		return m, tea.Batch(m.spin.Tick, m.loadCmd())
 	case "q", "esc":
-		m.quit = true
-		return m, tea.Quit
+		m.mode = modeQuitConfirm
+		return m, nil
 	}
 	return m.actionKey(msg)
+}
+
+func (m Model) quitConfirmKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
+	switch msg.String() {
+	case "q", "esc", "y", "enter":
+		m.quit = true
+		return m, tea.Quit
+	default:
+		m.mode = modeTable
+		return m, nil
+	}
 }
 
 func (m Model) actionKey(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
